@@ -21,6 +21,7 @@ def checkers():
     run = True
     clock = pygame.time.Clock()
     game = Game.Game()
+    pygame.display.set_caption("Checkers")
     winner = None
 
     while run:
