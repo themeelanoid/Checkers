@@ -27,5 +27,5 @@ delta_second = 2
 
 
 class Pieces(enum.Enum):
-    WHITE = 'WHITE'
-    BLACK = 'BLACK'
+    WHITE = "WHITE"
+    BLACK = "BLACK"

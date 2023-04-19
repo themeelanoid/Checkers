@@ -7,7 +7,7 @@ def minimax(position, depth, max_player, game):
         return position.evaluate(), position
 
     if max_player:
-        max_eval = float('-inf')
+        max_eval = float("-inf")
         best_move = None
         for move in get_all_moves(position, Config.Pieces.WHITE, game):
             evaluation = minimax(move, depth - 1, False, game)[0]
@@ -17,7 +17,7 @@ def minimax(position, depth, max_player, game):
 
         return max_eval, best_move
     else:
-        min_eval = float('inf')
+        min_eval = float("inf")
         best_move = None
         for move in get_all_moves(position, Config.Pieces.BLACK, game):
             evaluation = minimax(move, depth - 1, True, game)[0]
@@ -35,7 +35,9 @@ def simulate_move(piece, move, board, game, skip):
         board.remove(t)
         zxc = board.get_possible_jumps(piece)
         if zxc:
-            simulate_move(piece, list(zxc.keys())[0], board, game, list(zxc.values())[0])
+            simulate_move(
+                piece, list(zxc.keys())[0], board, game, list(zxc.values())[0]
+            )
 
     return board
 
@@ -57,4 +59,3 @@ def get_all_moves(board, color, game):
                 moves.append(new_board)
 
     return moves
-

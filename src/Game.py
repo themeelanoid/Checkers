@@ -66,9 +66,15 @@ class Game:
     def draw_valid_moves(self, moves):
         for move in moves:
             row, column = move
-            pygame.draw.circle(self.win, Config.POSSIBLE_MOVE_COLOR, (
-                column * Config.SQUARE_SIZE + Config.SQUARE_SIZE // 2,
-                row * Config.SQUARE_SIZE + Config.SQUARE_SIZE // 2), Config.VALID_MOVE_MARK_RADIUS)
+            pygame.draw.circle(
+                self.win,
+                Config.POSSIBLE_MOVE_COLOR,
+                (
+                    column * Config.SQUARE_SIZE + Config.SQUARE_SIZE // 2,
+                    row * Config.SQUARE_SIZE + Config.SQUARE_SIZE // 2,
+                ),
+                Config.VALID_MOVE_MARK_RADIUS,
+            )
 
     def change_turn(self):
         self.valid_moves.clear()
@@ -94,7 +100,11 @@ class Game:
         for row in range(Config.ROWS):
             for column in range(Config.COLUMNS):
                 piece = self.board.get_tile(row, column)
-                if piece != 0 and self.board.get_possible_jumps(piece) != {} and piece.color == self.turn:
+                if (
+                    piece != 0
+                    and self.board.get_possible_jumps(piece) != {}
+                    and piece.color == self.turn
+                ):
                     self.forced_to_take.add(piece)
 
     def if_taken(self, taken, row, column, piece_type_before_move):
@@ -102,7 +112,10 @@ class Game:
         taken_piece = self.board.get_tile(r, c)
         self.board.remove(taken_piece)
         piece = self.board.get_tile(row, column)
-        if type(piece) == piece_type_before_move and self.board.get_possible_jumps(piece) != {}:
+        if (
+            type(piece) == piece_type_before_move
+            and self.board.get_possible_jumps(piece) != {}
+        ):
             self.forced_take(piece)
 
         else:

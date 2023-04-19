@@ -19,11 +19,23 @@ class Board:
         win.fill(Config.BLACK_TILES_COLOR)
         for row in range(Config.ROWS):
             for col in range(row % 2, Config.COLUMNS, 2):
-                pygame.draw.rect(win, Config.WHITE_TILES_COLOR, (row * Config.SQUARE_SIZE, col * Config.SQUARE_SIZE,
-                                            Config.SQUARE_SIZE, Config.SQUARE_SIZE))
+                pygame.draw.rect(
+                    win,
+                    Config.WHITE_TILES_COLOR,
+                    (
+                        row * Config.SQUARE_SIZE,
+                        col * Config.SQUARE_SIZE,
+                        Config.SQUARE_SIZE,
+                        Config.SQUARE_SIZE,
+                    ),
+                )
 
     def evaluate(self):
-        return self.white_left - self.red_left + (self.white_kings * 0.5 - self.red_kings * 0.5)
+        return (
+            self.white_left
+            - self.red_left
+            + (self.white_kings * 0.5 - self.red_kings * 0.5)
+        )
 
     def get_all_pieces(self, color):
         pieces = []
@@ -34,8 +46,10 @@ class Board:
         return pieces
 
     def move(self, piece, row, col):
-        self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][
-            piece.col]
+        self.board[piece.row][piece.col], self.board[row][col] = (
+            self.board[row][col],
+            self.board[piece.row][piece.col],
+        )
         piece.move(row, col)
 
         if type(piece) == Checker.Checker and (row == Config.ROWS - 1 or row == 0):
@@ -53,7 +67,11 @@ class Board:
         all_rules = piece.jump_rules()
         for position in all_rules.keys():
             row, column = position
-            if 0 <= row < Config.ROWS and 0 <= column < Config.COLUMNS and self.board[row][column] == 0:
+            if (
+                0 <= row < Config.ROWS
+                and 0 <= column < Config.COLUMNS
+                and self.board[row][column] == 0
+            ):
                 r, c = all_rules[position]
                 if self.board[r][c] != 0 and self.board[r][c].color != piece.color:
                     jumps[position] = (r, c)
@@ -65,9 +83,13 @@ class Board:
             for col in range(Config.COLUMNS):
                 if col % 2 == ((row + 1) % 2):
                     if row < 3:
-                        self.board[row].append(Checker.Checker(row, col, Config.Pieces.WHITE))
+                        self.board[row].append(
+                            Checker.Checker(row, col, Config.Pieces.WHITE)
+                        )
                     elif row > 4:
-                        self.board[row].append(Checker.Checker(row, col, Config.Pieces.BLACK))
+                        self.board[row].append(
+                            Checker.Checker(row, col, Config.Pieces.BLACK)
+                        )
                     else:
                         self.board[row].append(0)
                 else:

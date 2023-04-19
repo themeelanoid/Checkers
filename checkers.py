@@ -28,13 +28,15 @@ def checkers():
 
         if game.winner() is not None:
             if game.winner() == Config.Pieces.BLACK:
-                winner = 'BLACK'
+                winner = "BLACK"
             else:
-                winner = 'WHITE'
+                winner = "WHITE"
             run = False
 
         if game.turn == Config.Pieces.WHITE:
-            value, new_board = algorithm.minimax(game.get_board(), 5, Config.Pieces.WHITE, game)
+            value, new_board = algorithm.minimax(
+                game.get_board(), 4, Config.Pieces.WHITE, game
+            )
             game.ai_move(new_board)
 
         for event in pygame.event.get():
@@ -57,16 +59,16 @@ def checkers_2x2():
     run = True
     clock = pygame.time.Clock()
     game = Game.Game()
-    pygame.display.set_caption('Checkers')
+    pygame.display.set_caption("Checkers")
     winner = None
     while run:
         clock.tick(FPS)
 
         if game.winner() is not None:
             if game.winner() == Config.Pieces.BLACK:
-                winner = 'BLACK'
+                winner = "BLACK"
             else:
-                winner = 'WHITE'
+                winner = "WHITE"
             run = False
 
         for event in pygame.event.get():
@@ -85,40 +87,62 @@ def checkers_2x2():
 
 
 def menu():
-    last_game_winner = 'UNDEFINED'
+    last_game_winner = "UNDEFINED"
+    screen = pygame.display.set_mode((Config.WIDTH, Config.HEIGHT))
+    pygame.display.set_caption("Menu")
+    screen.blit(
+        pygame.transform.scale(
+            pygame.image.load("src/images/Background.png"),
+            (Config.WIDTH, Config.HEIGHT),
+        ),
+        (0, 0),
+    )
     while True:
-        screen = pygame.display.set_mode((Config.WIDTH, Config.HEIGHT))
-        pygame.display.set_caption('Menu')
-        screen.blit(
-            pygame.transform.scale(pygame.image.load('src/images/Background.png'), (Config.WIDTH, Config.HEIGHT)),
-            (0, 0))
-
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = pygame.font.Font("src/fonts/font.ttf", 85).render("MAIN MENU", True, "#b68f40")
-        MENU_RECT = MENU_TEXT.get_rect(center=(Config.WIDTH // 2, Config.HEIGHT * 1.5 // 10))
-        PLAY_BOT_BUTTON = Button.Button(None,
-                                        pos=(Config.WIDTH // 2, Config.HEIGHT * 3.5 // 10),
-                                        text_input="PLAY VS AI", font=pygame.font.Font("src/fonts/font.ttf", 45),
-                                        base_color="#d7fcd4",
-                                        hovering_color="White")
-        PLAY_BUTTON = Button.Button(None,
-                                    pos=(Config.WIDTH // 2, Config.HEIGHT * 5 // 10),
-                                    text_input="PLAY WITH FRIEND", font=pygame.font.Font("src/fonts/font.ttf", 45),
-                                    base_color="#d7fcd4",
-                                    hovering_color="White")
-        QUIT_BUTTON = Button.Button(None,
-                                    pos=(Config.WIDTH // 2, Config.HEIGHT * 6.5 // 10),
-                                    text_input="QUIT", font=pygame.font.Font("src/fonts/font.ttf", 45),
-                                    base_color="#d7fcd4",
-                                    hovering_color="White")
+        MENU_TEXT = pygame.font.Font("src/fonts/font.ttf", 85).render(
+            "MAIN MENU", True, "#b68f40"
+        )
+        MENU_RECT = MENU_TEXT.get_rect(
+            center=(Config.WIDTH // 2, Config.HEIGHT * 1.5 // 10)
+        )
+        PLAY_BOT_BUTTON = Button.Button(
+            None,
+            pos=(Config.WIDTH // 2, Config.HEIGHT * 3.5 // 10),
+            text_input="PLAY VS AI",
+            font=pygame.font.Font("src/fonts/font.ttf", 45),
+            base_color="#d7fcd4",
+            hovering_color="White",
+        )
+        PLAY_BUTTON = Button.Button(
+            None,
+            pos=(Config.WIDTH // 2, Config.HEIGHT * 5 // 10),
+            text_input="PLAY WITH FRIEND",
+            font=pygame.font.Font("src/fonts/font.ttf", 45),
+            base_color="#d7fcd4",
+            hovering_color="White",
+        )
+        QUIT_BUTTON = Button.Button(
+            None,
+            pos=(Config.WIDTH // 2, Config.HEIGHT * 6.5 // 10),
+            text_input="QUIT",
+            font=pygame.font.Font("src/fonts/font.ttf", 45),
+            base_color="#d7fcd4",
+            hovering_color="White",
+        )
 
-        LAST_GAME_WINNER_PATTERN = pygame.font.Font("src/fonts/font.ttf", 25).render("THE WINNER OF THE LAST GAME IS",
-                                                                                     True, "#b68f40")
+        LAST_GAME_WINNER_PATTERN = pygame.font.Font("src/fonts/font.ttf", 25).render(
+            "THE WINNER OF THE LAST GAME IS", True, "#b68f40"
+        )
         LAST_GAME_WINNER_PATTERN_RECT = LAST_GAME_WINNER_PATTERN.get_rect(
-            center=(Config.WIDTH // 2, Config.HEIGHT * 8 // 10))
-        LAST_GAME_WINNER = pygame.font.Font("src/fonts/font.ttf", 25).render(last_game_winner, True, "#b68f40")
-        LAST_GAME_WINNER_RECT = LAST_GAME_WINNER.get_rect(center=(Config.WIDTH // 2, Config.HEIGHT * 9 // 10))
+            center=(Config.WIDTH // 2, Config.HEIGHT * 8 // 10)
+        )
+        LAST_GAME_WINNER = pygame.font.Font("src/fonts/font.ttf", 25).render(
+            last_game_winner, True, "#b68f40"
+        )
+        LAST_GAME_WINNER_RECT = LAST_GAME_WINNER.get_rect(
+            center=(Config.WIDTH // 2, Config.HEIGHT * 9 // 10)
+        )
 
         screen.blit(MENU_TEXT, MENU_RECT)
         screen.blit(LAST_GAME_WINNER_PATTERN, LAST_GAME_WINNER_PATTERN_RECT)
